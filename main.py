@@ -1,7 +1,8 @@
-# importing used modules and defining gas mixture
+# importing used modules
 import cantera as ct
 import numpy as np
 import matplotlib.pyplot as plt
+# functions searching for location of maximal values in two-dimensional array
 
 
 def max_location_phi(array_2d):
@@ -14,6 +15,8 @@ def max_location_x(array_2d):
     return result[1][0]
 
 
+# used mechanism in Cantera and defining of arrays (analysed: methane shares, fuel-air ratios, max. temp.,
+# max. pres. and max. pres. rate in each case
 gas = ct.Solution('gri30.yaml')
 points_fuels = 21
 points_phis = 21
@@ -23,6 +26,7 @@ max_temperatures = np.zeros((points_fuels, points_phis))
 max_pressures = np.zeros((points_fuels, points_phis))
 max_pres_rates = np.zeros((points_fuels, points_phis))
 
+# list of analysed cases
 switch_case = [[890., ct.one_atm], [950., ct.one_atm], [1000., ct.one_atm],  [1050., ct.one_atm],  [1100., ct.one_atm],
                [950., ct.one_atm], [950., 1.5*ct.one_atm], [950., 2.*ct.one_atm],  [950., 3*ct.one_atm]]
 for k in range(len(switch_case)):
@@ -33,15 +37,17 @@ for k in range(len(switch_case)):
             # defining shares of methane and ethane in fuel and needed amount of oxygen for stoichiometric mixture
             methane_share = fuels[j]             # methane's share in fuel
             ethane_share = 1.-methane_share  # ethane's share in fuel
-            needed_oxygen = (methane_share+2*ethane_share)+(2*methane_share+3*ethane_share)/2
+            needed_O2 = (methane_share+2*ethane_share)+(2*methane_share+3*ethane_share)/2
+
             # mixture properties
             phi = phis[i]                        # fuel–air equivalence ratio
             if phi != 0:
-                gas.X = {'CH4': methane_share, 'C2H6': ethane_share, 'O2': needed_oxygen/phi, 'N2': needed_oxygen*3.76/phi}
+                gas.X = {'CH4': methane_share, 'C2H6': ethane_share, 'O2': needed_O2/phi, 'N2': needed_O2*3.76/phi}
             else:
-                gas.X = {'CH4': 0, 'C2H6': 0, 'O2': needed_oxygen, 'N2': needed_oxygen * 3.76}
+                gas.X = {'CH4': 0, 'C2H6': 0, 'O2': needed_O2, 'N2': needed_O2 * 3.76}
             gas.TP = temperature_0, pressure_0
 
+            # simulation of autoignition process - preparation
             max_temp = gas.T
             max_pres = gas.P
             max_d_pres = 0.0
@@ -51,6 +57,8 @@ for k in range(len(switch_case)):
             sim = ct.ReactorNet([r])
             time = 0.0
 
+            # simulation of autoignition process - calculations and saving data
+            # (max. temp., max. pres. and max. pres. rate in each case)
             for t in range(1000):
                 time += d_time
                 sim.advance(time)
@@ -66,7 +74,7 @@ for k in range(len(switch_case)):
             max_pressures[i][j] = max_pres
             max_pres_rates[i][j] = max_d_pres
 
-    # plots
+    # plots of max. temp., max. pres. and max. pres. rate
     plot_dif = 11
     cm = 1/2.54  # centimeters in inches
 
@@ -112,11 +120,16 @@ for k in range(len(switch_case)):
     name_temp3 = 'plot_d_pres_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
     plt.savefig(name_temp3, dpi=1000)
 
+    # additional data - specific phis and fuel compositions with the highest max. temp., max. pres. and max. pres. rate
+    # in each case
     print('Starting parameters:\tT_0=' + str(int(temperature_0)) + 'K, p_0=' + str(int(pressure_0/ct.one_atm)) + 'atm')
     print('Maximal parameters:\t\tT_max=' + str(int(np.amax(max_temperatures))) + 'K (for (\u03A6,x_CH4)=('
-          + format(phis[max_location_phi(max_temperatures)], ".1f") + ',' + format(fuels[max_location_x(max_temperatures)], ".2f")
+          + format(phis[max_location_phi(max_temperatures)], ".1f") + ','
+          + format(fuels[max_location_x(max_temperatures)], ".2f")
           + ')), p=' + str(int(np.amax(max_pressures)/1e5)) + 'bar (for (\u03A6,x_CH4)=('
-          + format(phis[max_location_phi(max_pressures)], ".1f") + ',' + format(fuels[max_location_x(max_pressures)], ".2f")
+          + format(phis[max_location_phi(max_pressures)], ".1f") + ','
+          + format(fuels[max_location_x(max_pressures)], ".2f")
           + ')), dp=' + str(int(np.amax(max_pres_rates)/1e5)) + 'bar/s (for (\u03A6,x_CH4)=('
-          + format(phis[max_location_phi(max_pres_rates)], ".1f") + ',' + format(fuels[max_location_x(max_pres_rates)], ".2f")
+          + format(phis[max_location_phi(max_pres_rates)], ".1f") + ','
+          + format(fuels[max_location_x(max_pres_rates)], ".2f")
           + '))\n')
