@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 # functions searching for location of maximal values in two-dimensional array
 
 
-def max_location_phi(array_2d):
+def max_location_phi(array_2d):                         # phi is fuel–air equivalence ratio
     result = np.where(array_2d == np.amax(array_2d))
     return result[0][0]
 
 
-def max_location_x(array_2d):
+def max_location_x(array_2d):                           # x is methane's share in fuel (in loop named also 'fuels')
     result = np.where(array_2d == np.amax(array_2d))
     return result[1][0]
 
@@ -35,12 +35,12 @@ for k in range(len(switch_case)):
     for i in range(points_phis):
         for j in range(points_fuels):
             # defining shares of methane and ethane in fuel and needed amount of oxygen for stoichiometric mixture
-            methane_share = fuels[j]             # methane's share in fuel
+            methane_share = fuels[j]                    # methane's share in fuel
             ethane_share = 1.-methane_share  # ethane's share in fuel
             needed_O2 = (methane_share+2*ethane_share)+(2*methane_share+3*ethane_share)/2
 
             # mixture properties
-            phi = phis[i]                        # fuel–air equivalence ratio
+            phi = phis[i]                               # fuel–air equivalence ratio
             if phi != 0:
                 gas.X = {'CH4': methane_share, 'C2H6': ethane_share, 'O2': needed_O2/phi, 'N2': needed_O2*3.76/phi}
             else:
@@ -76,7 +76,7 @@ for k in range(len(switch_case)):
 
     # plots of max. temp., max. pres. and max. pres. rate
     plot_dif = 11
-    cm = 1/2.54  # centimeters in inches
+    cm = 1/2.54                                         # centimeters in inches
 
     fig1, ax = plt.subplots(constrained_layout=True, figsize=(30*cm, 20*cm))
     FIG1 = ax.contourf(fuels, phis, max_temperatures, plot_dif-1, cmap=plt.cm.bone, origin='lower')
