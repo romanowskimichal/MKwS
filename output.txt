@@ -1,3 +1,12 @@
+Starting parameters:	T_0=860K, p_0=1.0atm
+Maximal parameters:		T_max=861K (for (Φ,x_CH4)=(10.0,0.95)), p=1bar (for (Φ,x_CH4)=(10.0,0.90)), dp=0bar/s (for (Φ,x_CH4)=(10.0,0.90))
+
+Starting parameters:	T_0=870K, p_0=1.0atm
+Maximal parameters:		T_max=876K (for (Φ,x_CH4)=(10.0,0.90)), p=1bar (for (Φ,x_CH4)=(10.0,0.90)), dp=0bar/s (for (Φ,x_CH4)=(10.0,0.90))
+
+Starting parameters:	T_0=880K, p_0=1.0atm
+Maximal parameters:		T_max=932K (for (Φ,x_CH4)=(10.0,0.90)), p=1bar (for (Φ,x_CH4)=(10.0,0.90)), dp=1bar/s (for (Φ,x_CH4)=(10.0,0.90))
+
 Starting parameters:	T_0=890K, p_0=1.0atm
 Maximal parameters:		T_max=1679K (for (Φ,x_CH4)=(4.5,0.90)), p=2bar (for (Φ,x_CH4)=(4.5,0.90)), dp=390bar/s (for (Φ,x_CH4)=(4.5,0.90))
 

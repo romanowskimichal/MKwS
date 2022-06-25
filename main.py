@@ -27,7 +27,8 @@ max_pressures = np.zeros((points_fuels, points_phis))
 max_pres_rates = np.zeros((points_fuels, points_phis))
 
 # list of analysed cases
-switch_case = [[890., ct.one_atm], [950., ct.one_atm], [1000., ct.one_atm],  [1050., ct.one_atm],  [1100., ct.one_atm],
+switch_case = [[860., ct.one_atm], [870., ct.one_atm], [880., ct.one_atm], [890., ct.one_atm], [950., ct.one_atm],
+               [1000., ct.one_atm],  [1050., ct.one_atm],  [1100., ct.one_atm],
                [950., ct.one_atm], [950., 1.5*ct.one_atm], [950., 2.*ct.one_atm],  [950., 3*ct.one_atm]]
 for k in range(len(switch_case)):
     temperature_0 = switch_case[k][0]
