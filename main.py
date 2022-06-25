@@ -82,47 +82,47 @@ for k in range(len(switch_case)):
     FIG1 = ax.contourf(fuels, phis, max_temperatures, plot_dif-1, cmap=plt.cm.bone, origin='lower')
     CS1 = ax.contour(FIG1, levels=FIG1.levels[::1], colors='w', origin='lower')
     ax.set_title('Maximal temperature during explosion (T=' + str(int(temperature_0)) + 'K, p='
-                 + str(int(pressure_0/ct.one_atm)) + 'atm)')
+                 + str(pressure_0/ct.one_atm) + 'atm)')
     ax.set_xlabel('Methane\'s share in fuel [1]')
     ax.set_ylabel('Fuel–air equivalence ratio \u03A6 [1]')
     cbar = fig1.colorbar(FIG1)
     cbar.ax.set_ylabel('Temperature [K]')
     ax.clabel(CS1, fmt='%.0f', levels=FIG1.levels[::2], colors='w', fontsize=10)
     cbar.add_lines(CS1)
-    name_temp1 = 'plot_temp_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
+    name_temp1 = 'Figures/plot_temp_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
     plt.savefig(name_temp1, dpi=1000)
 
     fig2, ax = plt.subplots(constrained_layout=True, figsize=(30*cm, 20*cm))
     FIG2 = ax.contourf(fuels, phis, max_pressures/1e5, plot_dif-1, cmap=plt.cm.bone, origin='lower')
     CS2 = ax.contour(FIG2, levels=FIG2.levels[::1], colors='w', origin='lower')
     ax.set_title('Maximal pressure during explosion (T=' + str(int(temperature_0)) + 'K, p='
-                 + str(int(pressure_0/ct.one_atm)) + 'atm)')
+                 + str(pressure_0/ct.one_atm) + 'atm)')
     ax.set_xlabel('Methane\'s share in fuel [1]')
     ax.set_ylabel('Fuel–air equivalence ratio \u03A6 [1]')
     cbar = fig2.colorbar(FIG2)
     cbar.ax.set_ylabel('Pressure [bar]')
     ax.clabel(CS2, fmt='%.1f', levels=FIG2.levels[::2], colors='w', fontsize=10)
     cbar.add_lines(CS2)
-    name_temp2 = 'plot_pres_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
+    name_temp2 = 'Figures/plot_pres_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
     plt.savefig(name_temp2, dpi=1000)
 
     fig3, ax = plt.subplots(constrained_layout=True, figsize=(30*cm, 20*cm))
     FIG3 = ax.contourf(fuels, phis, max_pres_rates/1e5, plot_dif-1, cmap=plt.cm.bone, origin='lower')
     CS3 = ax.contour(FIG3, levels=FIG3.levels[::1], colors='w', origin='lower')
     ax.set_title('Maximal pressure rate during explosion (T=' + str(int(temperature_0)) + 'K, p='
-                 + str(int(pressure_0/ct.one_atm)) + 'atm)')
+                 + str(pressure_0/ct.one_atm) + 'atm)')
     ax.set_xlabel('Methane\'s share in fuel [1]')
     ax.set_ylabel('Fuel–air equivalence ratio \u03A6 [1]')
     cbar = fig3.colorbar(FIG3)
     cbar.ax.set_ylabel('Pressure rate [bar/s]')
     ax.clabel(CS3, fmt='%.1f', levels=FIG3.levels[::2], colors='w', fontsize=10)
     cbar.add_lines(CS3)
-    name_temp3 = 'plot_d_pres_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
+    name_temp3 = 'Figures/plot_d_pres_T' + str(int(temperature_0)) + '_p' + str(int(pressure_0)) + '.png'
     plt.savefig(name_temp3, dpi=1000)
 
     # additional data - specific phis and fuel compositions with the highest max. temp., max. pres. and max. pres. rate
     # in each case
-    print('Starting parameters:\tT_0=' + str(int(temperature_0)) + 'K, p_0=' + str(int(pressure_0/ct.one_atm)) + 'atm')
+    print('Starting parameters:\tT_0=' + str(int(temperature_0)) + 'K, p_0=' + str(pressure_0/ct.one_atm) + 'atm')
     print('Maximal parameters:\t\tT_max=' + str(int(np.amax(max_temperatures))) + 'K (for (\u03A6,x_CH4)=('
           + format(phis[max_location_phi(max_temperatures)], ".1f") + ','
           + format(fuels[max_location_x(max_temperatures)], ".2f")
