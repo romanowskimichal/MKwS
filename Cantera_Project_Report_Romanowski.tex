@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+	% want your title page.
+	% OR
+	% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+	% move this file to the same directory as the LaTeX file you wish to add it to. 
+	% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+	% title page.
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%\title{Title page with logo}
+	%----------------------------------------------------------------------------------------
+	%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+	%----------------------------------------------------------------------------------------
+	
+	\documentclass[12pt]{article}
+	\usepackage[english]{babel}
+	\usepackage[utf8x]{inputenc}
+	\usepackage{amsmath}
+	\usepackage{graphicx}
+	\usepackage{float}
+	\usepackage[colorinlistoftodos]{todonotes}
+	\usepackage[version=4]{mhchem}
+	\usepackage{listings}
+	\usepackage{xcolor}
+	\usepackage[T1]{fontenc}
+	
+	%New colors defined below
+	\definecolor{codegreen}{rgb}{0,0.6,0}
+	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+	\definecolor{codepurple}{rgb}{0.58,0,0.82}
+	\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+	
+	\begin{document}
+		
+		\begin{titlepage}
+			
+			\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+			
+			\center % Center everything on the page
+			
+			%----------------------------------------------------------------------------------------
+			%	HEADING SECTIONS
+			%----------------------------------------------------------------------------------------
+			
+			\textsc{\LARGE Politechnika Warszawska}\\[1cm] % Name of your university/college
+			\textsc{\Large Wydział Mechaniczny Energetyki i Lotnictwa}\\[0.5cm] % Major heading such as course name
+			\textsc{\large Metody Komputerowe w Spalaniu}\\[0.5cm] % Minor heading such as course title
+			
+			%----------------------------------------------------------------------------------------
+			%	TITLE SECTION
+			%----------------------------------------------------------------------------------------
+			
+			\HRule \\[0.4cm]
+			{ \huge \bfseries Analyse of properties of an auto-ignited methane-ethane mixture }\\[0.4cm] % Title of your document
+			\HRule \\[1.5cm]
+			
+			%----------------------------------------------------------------------------------------
+			%	AUTHOR SECTION
+			%----------------------------------------------------------------------------------------
+			
+			\begin{minipage}{0.4\textwidth}
+				\begin{flushleft} \large
+					\emph{Author:}\\
+					Michał \textsc{Romanowski} % Your name
+				\end{flushleft}
+			\end{minipage}
+			~
+			\begin{minipage}{0.4\textwidth}
+				\begin{flushright} \large
+					\emph{Supervisor:} \\
+					Dr. Mateusz \textsc{Żbikowski} % Supervisor's Name
+				\end{flushright}
+			\end{minipage}\\[1.5cm]
+			
+			% If you don't want a supervisor, uncomment the two lines below and remove the section above
+			%\Large \emph{Author:}\\
+			%John \textsc{Smith}\\[3cm] % Your name
+			
+			%----------------------------------------------------------------------------------------
+			%	DATE SECTION
+			%----------------------------------------------------------------------------------------
+			
+			{\large \today}\\[1.5cm] % Date, change the \today to a set date if you want to be precise
+			
+			%----------------------------------------------------------------------------------------
+			%	LOGO SECTION
+			%----------------------------------------------------------------------------------------
+			
+			\includegraphics[width=0.1\textwidth]{latex/logo.png}\\[0.5cm] % Include a department/university logo - this will require the graphicx package
+			
+			%----------------------------------------------------------------------------------------
+			
+			\vfill % Fill the rest of the page with whitespace
+			
+		\end{titlepage}
+		
+		
+		
+		
+		\section{Introduction}
+		Subject of this project was a combustion of fuel consisting methane and ethane in various proportions. This analysis will centre on comparing maximal temperature, pressure and pressure rate in different initial conditions what could be useful for designing combustion chamber. It also can help to assure that auto-ignition will or will not take place in some situations what is important for safety security as mixtures could be to increase or decrease the auto-ignition temperature.
+		
+		
+		\section{Model description}
+		
+		\subsection{Software}
+		That problem was solved with usage of Cantera software for Python programming language. That library could be also used in C++, Matlab and Fortran.
+		
+		\subsection{Gas model}
+		The gas was modelled as an ideal gas in zero-dimensional constant volume reactor. Initial state was specified by pressure, temperature and composition of fuel-air mixture. The last factor was described by fuel-air ratio and shares of methane and ethane in fuel.
+		\\ Air was described as oxygen-nitrogen mixture in ratio 1:3.76. Initial temperature and pressure were described in arrow inside the code. To check how both of them independently affect the calculations result, temperature was changed for pressure of one atmosphere and pressure for temperature of 950K. 
+		\\ Combustion reaction was specified by following chemical reaction for stoichiometric mixture:
+		\\ \ce{aCH4 + bC2H6 + c(O2 + 3.76N2 ) -> dCO2 + eH2O + c*3.76N2}
+		\\ where:
+		\\ $a$ - moles of methane, also methane's share in fuel in range [0,1],
+		\\ $b=1-a$ - moles of ethane, also ethane's share in fuel,
+		\\ $d=a$ - moles of carbon dioxygen,
+		\\ $e=2 \cdot a+3 \cdot b$ - moles of water (gaseous),
+		\\ $c=(a+2 \cdot b)+(2 \cdot a+3 \cdot b)/2$ - moles of oxygen,
+		\\ $c \cdot 3.76$ - moles of nitrogen which was considered as neutral gas.
+		
+		\subsection{Code summary}
+		The code uses Cantera's IdealGasReactor which creates zero-dimensional chamber with constant volume. During simulation of each combustion process maximal temperature, pressure and pressure rate were searched and then they were added to the two-dimensional arrows which were used to create three plots of those parameters.
+		\\ The parameters are shown as colours while X and Y axis stands respectively for methane's share in fuel and fuel-air ratio (generally denoted as $\Phi$).
+		\\ Code is shown in section \ref{AppB}.
+		
+		
+		\section{Results and conclusion}
+		The most important results are shown in subsections included in section \ref{AppA} and all in Figures folder in repository. Each subsection is named after initial temperature and pressure.
+		\\As it was suspected the highest temperatures are closely to the fuel-air ratio totals 1, because all energy contained in fuel in used in combustion process. The highest pressures and pressures rates are for $\Phi=1.5$. 
+		\\Moreover, it could be spotted that in Cantera calculations the mixture has higher temperature of ignition than in assumptions. 880 K is first temperature (in 10 K steps) which had significant difference between initial and maximal pressure (5\% of the first value, which is used in definition of explosion). For 880K (figures \ref{fig:T880p1_temp}, \ref{fig:T880p1_pres} and \ref{fig:T880p1_rate}) ignition takes place only around 0.9 share of methane in mixture and fuel-air ratios higher than 4. First remark is wrong, because in paper (6) characteristics of auto-ignition temperature is linear between those temperatures for pure methane and ethane – as it is described in sources (7) and (8) 870 K for methane and 790 K for ethane. What could be seen on next figures auto-ignition takes place for pure methane from around 1050 K and for pure ethane from around 1000 K for low and medium fuel-air ratios.
+		\\Beyond that problem, other observations are expected: with the increase of temperature or pressure mixture tends to burn in new compositions what is consistent with source (7). 
+		\\To sum up, Cantera in this case was not a good tool to examine auto-ignition. Reason of the strange behaviour for pure alkanes is unknown and probably should be examined.
+		
+		\section{Bibliography}
+		\begin{description}
+			\item[(1)] Spalanie – wykłady, 2021-2022, Gieras, M.
+			\item[(2)] Cantera  2022, Cantera Developers, lately accessed 18 June 2022, \\ \textlangle https://cantera.org/\textrangle
+			\item[(3)] Matplotlib 3.5.2 documentation, 2022,  The Matplotlib development team, lately accessed 21 June 2022, \textlangle https://matplotlib.org/stable/index.html\textrangle
+			\item[(4)] NumPy, 2022, lately accessed 21 June 2022, \textlangle https://numpy.org/ \textrangle
+			\item[(5)] Python 3.10.5 documentation, 2022, Python Software Foundation, lately accessed 22 June 2022, \textlangle https://docs.python.org/3/contents.html\textrangle
+			\item[(6)] Griffiths, J. F., Coppersthwaite, D., Phillips, C. H., Westbrook, C. K., \& Pitz, W. J. (1991). Auto-ignition temperatures of binary mixtures of alkanes in a closed vessel: Comparisons between experimental measurements and numerical predictions. Symposium (International) on Combustion, 23(1), 1745-1752.
+			\item[(7)] Steinle, J. U., \& Franck, E. U. (1995). High Pressure Combustion - Ignition Temperatures to 1000 bar. Berichte Der Bunsengesellschaft Für Physikalische Chemie, 99(1), 66-73.
+			\item[(8)] Hydrocarbons - Autoignition Temperatures and Flash Points, Engineering ToolBox, 2017, lately accessed 25 June 2022, \\ \textlangle https://www.engineeringtoolbox.com/flash-point-autoignition-temperature-kindling-hydrocarbons-alkane-alkene-d\textunderscore1941.html\textrangle
+		\end{description}
+		
+		\input{latex/AppA_Plots}
+		\input{latex/AppB_Code}
+		
+	\end{document}
